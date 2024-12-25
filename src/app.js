@@ -21,7 +21,10 @@ app.use(express.urlencoded({
     limit: '16kb',
 }));
 
-const userRouter = require('./routes/user.routes.js')
+const userRouter = require('./routes/user.routes.js');
+const chatRouter = require('./routes/chat.routes.js');
+
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/chats", chatRouter);
 
 module.exports = {app};

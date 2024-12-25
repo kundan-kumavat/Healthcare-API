@@ -2,22 +2,23 @@ const mongoose = require('mongoose');
 
 const personalInfoSchema = new mongoose.Schema(
     {
-        first_name: {
+        firstName: {
             type: String,
             required: true
         },
-        last_name: {
+        lastName: {
             type: String,
             required: true
         },
         dob: {
             type: Date,
+            required: true
         },
         phone_no: {
             type: String,
             required: true
         },
-        Gender: {
+        gender: {
             type: String,
             enum: ['Male', 'Female', 'Other'],
             required: true
@@ -34,6 +35,7 @@ const personalInfoSchema = new mongoose.Schema(
         },
         address: {
             type: String,
+            required: true
         },
         address_2: {
             type: String,
@@ -46,6 +48,14 @@ const personalInfoSchema = new mongoose.Schema(
         },
         pincode: {
             type: String,
+            required: true
+        },
+        avatar: {
+            type: String,
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
         }
     },
     {

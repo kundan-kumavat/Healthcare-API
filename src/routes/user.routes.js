@@ -1,19 +1,31 @@
 const { Router } = require('express');
-const { registerUser, loginUser } = require('../controllers/user.controllers.js');
+const { registerUser, loginUser, logOut, changePassword, refreshAccessToken, userDetails, deleteUser, updateUserDetails, getCurrentUserDetail } = require('../controllers/user.controllers.js');
 const { upload } = require('../middlewares/multer.middlewares.js');
+const verifyJWT = require('../middlewares/auth.middlewares.js')
 
 const router = Router();
 
 router.route('/register').post(
+    registerUser
+);
+
+router.route('/login').post(loginUser);
+router.route('/logout').post(verifyJWT, logOut);
+router.route('/change-password').post(verifyJWT, changePassword);
+router.route('/refresh-token').post(refreshAccessToken);
+router.route('/user-details').post(verifyJWT,
     upload.fields([
         {
             name: 'avatar',
             maxCount: 1
         }
     ]),
-    registerUser
+    userDetails
 );
 
-router.route('/login').post(loginUser);
+router.route('/delete-user').delete(verifyJWT, deleteUser);
+router.route('/update-avatar').put(verifyJWT, upload.single('avatar'), updateUserDetails);
+router.route('/update').put(verifyJWT, updateUserDetails);
+router.route('/current-user').get(verifyJWT, getCurrentUserDetail);
 
 module.exports = router;
