@@ -23,8 +23,14 @@ app.use(express.urlencoded({
 
 const userRouter = require('./routes/user.routes.js');
 const chatRouter = require('./routes/chat.routes.js');
+const appointmentRouter = require('./routes/appointment.routes.js');
+const medicalDataRouter = require('./routes/medicalData.routes.js');
+const doctorRouter = require('./routes/doctor.routes.js');
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/appointments", appointmentRouter);
+app.use("/api/v1/medical-data", medicalDataRouter);
+app.use("/api/v1/doctors", doctorRouter);
 
 module.exports = {app};

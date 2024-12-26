@@ -14,10 +14,15 @@ const doctorSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        experience: {
-            type: String,
+        fees: {
+            type: String
         },
-        clinc_name: [{
+        experienceInYears: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        worksInHospitals: [{
             type: String,
             required: true
         }]

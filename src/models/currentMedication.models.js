@@ -13,7 +13,8 @@ const currentMedicationSchema = new mongoose.Schema(
             }
         ],
         medicine_duration: {
-            type: String,
+            type: Number,
+            default: 0,
             required: true
         },
         known_allergies: [

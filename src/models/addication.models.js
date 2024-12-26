@@ -11,8 +11,9 @@ const addicationSchema = new mongoose.Schema(
             default: 0,
             required: true
         },
-        duration: {
-            type: String,
+        durationInMonths: {
+            type: Number,
+            default: 0,
             required: true
         },
         user: {

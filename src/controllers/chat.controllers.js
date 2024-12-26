@@ -20,25 +20,42 @@ const uploadChat = async (req, res) => {
         });
     
     } catch (error) {
-        console.log('Chat not uploaded');
+        console.log(error);
+        return res.status(500).json({
+            message: "chat not uploaded",
+        });
     }
 }
 
 const getChats = async(req, res) => {
     try {
-        const chats = await Chat.findAll(req.user?._id);
+        const chats = await Chat.find({
+            user: req.user?._id,
+        });
+
+        if(!chats){
+            return res.status(404).json({message: 'Chats not found'})
+        }
     
         return res.status(200).json({
             data: chats
         });
     } catch (error) {
-        console.log('Data not fetched')
+        console.log(error);
+        return res.status(500).json({
+            message: "chat data not fetched",
+        });
     }
 }
 
 const updateChat = async(req, res) => {
-    const { chatId } = req.params;
+    const chatId = req.params.id;
     const {input, output} = req.body;
+
+    if(!input && !output){
+        return res.status(400).json({message: "Incomplete chat data"});
+    }
+
     try {
         const chat = await Chat.findByIdAndUpdate(
             chatId,
@@ -58,12 +75,15 @@ const updateChat = async(req, res) => {
             data: chat
         });
     } catch (error) {
-        console.log('Chat not updated')
+        console.log(error);
+        return res.status(500).json({
+            message: "chat not updated",
+        });
     }
 }
 
 const deleteChat = async(req, res) => {
-    const {chatId} = req.params;
+    const chatId = req.params.id;
     try {
         await Chat.findByIdAndDelete(chatId);
     
@@ -71,7 +91,10 @@ const deleteChat = async(req, res) => {
             message: 'chat deleted successfully'
         });
     } catch (error) {
-        console.log('Chat not deleted')
+        console.log(error);
+        return res.status(500).json({
+            message: "chat data not deleted",
+        });
     }
 }
 
