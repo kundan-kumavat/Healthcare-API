@@ -4,8 +4,8 @@ const { addDoctor, getDoctorsBasedOnLocation, getDoctorsBasedOnSpecialization, u
 
 const router = Router();
 
-router.route('/').get(verifyJWT, getDoctorsBasedOnLocation);
-router.route('/').get(verifyJWT, getDoctorsBasedOnSpecialization);
+router.route('/').get(getDoctorsBasedOnLocation);
+router.route('/').get(getDoctorsBasedOnSpecialization);
 router.route('/').post(verifyJWT, addDoctor);
 router.route('/:id').put(verifyJWT, updateDoctorDetails);
 router.route('/:id').delete(verifyJWT, deleteDoctorDetails);
