@@ -80,24 +80,20 @@ const getDoctorsBasedOnSpecialization = async(req, res) => {
 
 const updateDoctorDetails = async(req, res) => {
     const doctorId = req.params.id;
-    const { name, specialization, location, fees, experienceInYears, worksInHospitals } = req.body;
+    // const { name, specialization, location, fees, experienceInYears, worksInHospitals } = req.body;
+    const updateData = req.body;
 
-    if([name, specialization, location, experienceInYears, worksInHospitals].some((feild) => feild?.trim() === "")){
-        return res.status(400).json({message: "Incomplete Doctor data"});
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        })
     }
 
     try {
         const doctor = await Doctor.findByIdAndUpdate(
             doctorId,
             {
-                $set: {
-                   name: name,
-                   specialization: specialization,
-                   location: location,
-                   fees: fees,
-                   experienceInYears: experienceInYears,
-                   worksInHospitals: worksInHospitals
-                }
+                $set: updateData
             },
             {
                 new: true

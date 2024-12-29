@@ -53,21 +53,23 @@ const getAppointments = async(req, res) => {
 
 const updateAppointment = async(req, res) => {
     const AppointmentId  = req.params.id;
-    const {doctor, date, timeSlot} = req.body;
+    // const {doctor, date, timeSlot} = req.body;
 
-    if([doctor, date, timeSlot].some((feild) => feild?.trim() === "")){
-        return res.status(400).json({message: "Incomplete Appointment data"});
+    const updateData = req.body;
+
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        });
     }
+
+    
 
     try {
         const Appointment = await Appointment.findByIdAndUpdate(
             AppointmentId,
             {
-                $set: {
-                    doctor: doctor,
-                    date: date,
-                    timeSlot: timeSlot
-                }
+                $set: updateData
             },
             {
                 new: true

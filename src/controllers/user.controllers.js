@@ -237,28 +237,35 @@ const userDetails = async(req, res) => {
 }
 
 const updateUserDetails = async(req, res) => {
-    const {firstName, lastName, dob, phone_no, gender, working_hours, height, weight, address, address_2, city, state, pincode} = req.body;
+    // const {firstName, lastName, dob, phone_no, gender, working_hours, height, weight, address, address_2, city, state, pincode} = req.body;
+    const updateData = req.body;
+
+    // const updatedData = {};
+
+    // Object.entries({firstName, lastName, dob, phone_no, gender, working_hours, height, weight, address, address_2, city, state, pincode}).forEach(
+    //     ([key, value]) => {
+    //         if(value !== undefined || "") updatedData[key] == value
+    //     }
+    // )
+
+    // if(!Object.keys(updatedData)?.length){
+    //     return res.status.json({
+    //         message: "No fields to update"
+    //     })
+    // }
+
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        });
+    }
 
     try {
 
         const user = await PersonalDetail.findByIdAndUpdate(
             req.user?._id,
             {
-                $set: {
-                    firstName,
-                    lastName,
-                    dob,
-                    phone_no,
-                    gender,
-                    working_hours,
-                    height,
-                    weight,
-                    address,
-                    address_2,
-                    city,
-                    state,
-                    pincode
-                }
+                $set: updateData
             },
             {
                 new: true

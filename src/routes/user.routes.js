@@ -1,7 +1,8 @@
 const { Router } = require('express');
 const { registerUser, loginUser, logOut, changePassword, refreshAccessToken, userDetails, deleteUser, updateUserDetails, getCurrentUserDetail } = require('../controllers/user.controllers.js');
 const { upload } = require('../middlewares/multer.middlewares.js');
-const verifyJWT = require('../middlewares/auth.middlewares.js')
+const verifyJWT = require('../middlewares/auth.middlewares.js');
+const { getUserStats } = require('../controllers/dashboard.controllers.js')
 
 const router = Router();
 
@@ -27,5 +28,6 @@ router.route('/delete-user').delete(verifyJWT, deleteUser);
 router.route('/update-avatar').put(verifyJWT, upload.single('avatar'), updateUserDetails);
 router.route('/update').put(verifyJWT, updateUserDetails);
 router.route('/current-user').get(verifyJWT, getCurrentUserDetail);
+router.route('/stats').post(verifyJWT, getUserStats);
 
 module.exports = router;

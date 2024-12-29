@@ -71,6 +71,42 @@ const deletePastSurgicalData = async(req, res) => {
     }
 }
 
+const updatePastSurgicalData = async(req, res) => {
+    const dataId  = req.params.id;
+
+    const updateData = req.body;
+
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        });
+    }
+
+    
+
+    try {
+        const pastSurgicalData = await PastSurgicalData.findByIdAndUpdate(
+            dataId,
+            {
+                $set: updateData
+            },
+            {
+                new: true
+            }
+        );
+    
+        return res.status(200).json({
+            message: "Past Surgical Data updated successfully",
+            data: pastSurgicalData
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Past Surgical Data not updated",
+        });
+    }
+}
+
 const getAddicationData = async(req, res) => {
     try {
         const Addications = await Addication.find({
@@ -133,6 +169,42 @@ const deleteAddicationData = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             message: "Addication not deleted",
+        });
+    }
+}
+
+const updateAddicationData = async(req, res) => {
+    const dataId  = req.params.id;
+
+    const updateData = req.body;
+
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        });
+    }
+
+    
+
+    try {
+        const Addication = await Addication.findByIdAndUpdate(
+            dataId,
+            {
+                $set: updateData
+            },
+            {
+                new: true
+            }
+        );
+    
+        return res.status(200).json({
+            message: "Addication Data updated successfully",
+            data: Addication
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Addication Data not updated",
         });
     }
 }
@@ -207,6 +279,43 @@ const deleteCurrentMedicationData = async(req, res) => {
     }
 }
 
+const updateCurrentMedicationData = async(req, res) => {
+    const dataId  = req.params.id;
+
+    const updateData = req.body;
+
+    if(!Object.keys(updateData)?.length){
+        return res.status(400).json({
+            message: "No fields to update"
+        });
+    }
+
+    
+
+    try {
+        const currentMedication = await CurrentMedicationData.findByIdAndUpdate(
+            dataId,
+            {
+                $set: updateData
+            },
+            {
+                new: true
+            }
+        );
+    
+        return res.status(200).json({
+            message: "Current Medication Data updated successfully",
+            data: currentMedication
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Current Medication Data not updated",
+        });
+    }
+}
+
+
 module.exports = { 
     getAddicationData,
     getCurrentMedicationData,
@@ -216,5 +325,8 @@ module.exports = {
     addPastSurgicalData,
     deleteAddicationData,
     deleteCurrentMedicationData,
-    deletePastSurgicalData
+    deletePastSurgicalData,
+    updateAddicationData,
+    updateCurrentMedicationData,
+    updatePastSurgicalData
 };

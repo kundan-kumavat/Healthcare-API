@@ -18,4 +18,8 @@ router.route('/addication/:id').delete(verifyJWT, deleteAddicationData);
 router.route('/current-medication-data/:id').delete(verifyJWT, deleteCurrentMedicationData);
 router.route('/past-surgical-data/:id').delete(verifyJWT, deletePastSurgicalData);
 
+router.route('/addication/:id').put(verifyJWT, deleteAddicationData);
+router.route('/current-medication-data/:id').put(verifyJWT, deleteCurrentMedicationData);
+router.route('/past-surgical-data/:id').put(verifyJWT, deletePastSurgicalData);
+
 module.exports = router;
