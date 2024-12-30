@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
         }
 
         const user = await User.create({
-            username: username.toLowerCase(),
+            username: username?.toLowerCase(),
             email,
             password
         });
@@ -164,7 +164,7 @@ const refreshAccessToken = async(req, res) => {
             return res.status(401).json({message: "Invalid access token"})
         }
 
-        if(incomingRefreshToken !== req?.refreshToken){
+        if(!(incomingRefreshToken === user?.refreshToken)){
             return res.status(401).json({message: "Refresh Token is expired"});
         }
 
@@ -239,17 +239,18 @@ const userDetails = async(req, res) => {
 const updateUserDetails = async(req, res) => {
     // const {firstName, lastName, dob, phone_no, gender, working_hours, height, weight, address, address_2, city, state, pincode} = req.body;
     const updateData = req.body;
+    const dataID = req.params.id;
 
     // const updatedData = {};
 
     // Object.entries({firstName, lastName, dob, phone_no, gender, working_hours, height, weight, address, address_2, city, state, pincode}).forEach(
     //     ([key, value]) => {
-    //         if(value !== undefined || "") updatedData[key] == value
+    //         if(value !== undefined || "") updatedData[key] = value
     //     }
     // )
 
     // if(!Object.keys(updatedData)?.length){
-    //     return res.status.json({
+    //     return res.status(400).json({
     //         message: "No fields to update"
     //     })
     // }
@@ -262,8 +263,12 @@ const updateUserDetails = async(req, res) => {
 
     try {
 
-        const user = await PersonalDetail.findByIdAndUpdate(
-            req.user?._id,
+        const userDetails = await PersonalDetail.findOne({
+            user: req.user?._id,
+        })
+
+        const data = await PersonalDetail.findByIdAndUpdate(
+            userDetails._id,
             {
                 $set: updateData
             },
@@ -272,9 +277,15 @@ const updateUserDetails = async(req, res) => {
             }
         );
 
+        if(!data){
+            return res.status(500).json({
+                message: "Account details not updated"
+            })
+        }
+
         return res.status(200).json({
             message: "Account Details updated successfully",
-            user: user
+            user: data
         });
     } catch (error) {
         console.log("Something went wrong while updating results: ", error);
@@ -282,17 +293,23 @@ const updateUserDetails = async(req, res) => {
 };
 
 const updateUserAvatar = async (req, res) => {
-    const avatarLocalPath = req.file?.path
+    const avatarLocalPath = req.file?.path;
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is missing")
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    console.log(avatarLocalPath);
 
-    const perviousAvatar = req.user?.avatar;
+    const user = await PersonalDetail.findOne({
+        user: req.user?.id,
+    });
 
-    const deletePreviousAvatar = await deletOnCloudinary(perviousAvatar);
+    const perviousImagePath = user?.avatar.replace("http://res.cloudinary.com/dqdtyplfd/image/upload/v1735534235/", "");
+    const oldImage = perviousImagePath?.replace(".jpg", "");
+    console.log(oldImage)
+
+    const deletePreviousAvatar = await deletOnCloudinary(avatarLocalPath, oldImage);
 
     if(!deletePreviousAvatar){
         return res.status(500).json({
@@ -300,21 +317,13 @@ const updateUserAvatar = async (req, res) => {
         })
     }
 
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+
     if(!avatar.url){
         throw new ApiError(400, "Error on uploading on avatar")
     }
 
-    const user = await PersonalDetail.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $set: {
-                avatar: avatar.url
-            }
-        },
-        {
-            new: true
-        }
-    ).select("-password")
+    user.avatar = avatar?.url;
 
     return res.status(200).json( 
         { message: "User profile updated successfully" }
@@ -322,7 +331,9 @@ const updateUserAvatar = async (req, res) => {
 }
 
 const getCurrentUserDetail = async(req, res) => {
-    const userData = await PersonalDetail.findById(req.user?._id);
+    const userData = await PersonalDetail.findOne({
+        user: req.user?._id,
+    });
     return res.status(200).json({
         data: userData
     });

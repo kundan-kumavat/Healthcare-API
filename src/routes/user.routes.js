@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { registerUser, loginUser, logOut, changePassword, refreshAccessToken, userDetails, deleteUser, updateUserDetails, getCurrentUserDetail } = require('../controllers/user.controllers.js');
+const { registerUser, loginUser, logOut, changePassword, refreshAccessToken, userDetails, deleteUser, updateUserDetails, getCurrentUserDetail, updateUserAvatar } = require('../controllers/user.controllers.js');
 const { upload } = require('../middlewares/multer.middlewares.js');
 const verifyJWT = require('../middlewares/auth.middlewares.js');
 const { getUserStats } = require('../controllers/dashboard.controllers.js')
@@ -25,9 +25,9 @@ router.route('/user-details').post(verifyJWT,
 );
 
 router.route('/delete-user').delete(verifyJWT, deleteUser);
-router.route('/update-avatar').put(verifyJWT, upload.single('avatar'), updateUserDetails);
-router.route('/update').put(verifyJWT, updateUserDetails);
+router.route('/update-avatar').put(verifyJWT, upload.single('avatar'), updateUserAvatar);
+router.route('/user-details').put(verifyJWT, updateUserDetails);
 router.route('/current-user').get(verifyJWT, getCurrentUserDetail);
-router.route('/stats').post(verifyJWT, getUserStats);
+router.route('/stats/:username').get(verifyJWT, getUserStats);
 
 module.exports = router;

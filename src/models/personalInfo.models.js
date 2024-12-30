@@ -12,7 +12,6 @@ const personalInfoSchema = new mongoose.Schema(
         },
         dob: {
             type: Date,
-            required: true
         },
         phone_no: {
             type: String,

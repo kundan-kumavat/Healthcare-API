@@ -3,8 +3,9 @@ const SECRET_TOKEN = 'HealthcareApi';
 const User = require('../models/user.models');
 
 const verifyJWT = async(req, res, next) => {
+
+    let token = req.headers.authorization;
     try {
-        const token = req.headers.authorization;
 
         if(token){
             token = token.split(" ")[1];

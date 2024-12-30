@@ -12,14 +12,14 @@ const uploadOnCloudinary = async (localFilePath) => {
             }
         );
 
-        if(!localFilePath) return null;
+        if (!localFilePath) return null;
 
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: 'auto',
         })
-        .catch((error) =>{
-            console.log(error);
-        });
+            .catch((error) => {
+                console.log(error);
+            });
         console.log(response);
 
         fs.unlinkSync(localFilePath);
@@ -30,7 +30,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-const deletOnCloudinary = async(localFilePath) => {
+const deletOnCloudinary = async (localFilePath, oldImage) => {
     try {
 
         cloudinary.config(
@@ -41,19 +41,20 @@ const deletOnCloudinary = async(localFilePath) => {
             }
         );
 
-        if(!localFilePath) return null;
+        if (!localFilePath) return null;
 
-        cloudinary.v2.api
-            .delete_resources([localFilePath], 
-                { type: 'upload', resource_type: 'auto' })
-            .then(console.log);
+        await cloudinary.api
+        .delete_resources(
+            [oldImage],
+            { type: 'upload', resource_type: 'image' }
+        )
+        .then(console.log);
+        return true;
 
-    return true
 
-        
     } catch (error) {
         return null;
     }
 }
 
-module.exports = {uploadOnCloudinary, deletOnCloudinary}
+module.exports = { uploadOnCloudinary, deletOnCloudinary }

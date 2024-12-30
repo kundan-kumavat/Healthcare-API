@@ -19,7 +19,7 @@ const getUserStats = async(req, res) => {
             },
             {
                 $lookup: {
-                    from: "personalinfos",
+                    from: "personal-datas",
                     localField: "_id",
                     foreignField: "user",
                     as: "personalInfo",
