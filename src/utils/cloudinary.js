@@ -30,4 +30,30 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-module.exports = {uploadOnCloudinary}
+const deletOnCloudinary = async(localFilePath) => {
+    try {
+
+        cloudinary.config(
+            {
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            }
+        );
+
+        if(!localFilePath) return null;
+
+        cloudinary.v2.api
+            .delete_resources([localFilePath], 
+                { type: 'upload', resource_type: 'auto' })
+            .then(console.log);
+
+    return true
+
+        
+    } catch (error) {
+        return null;
+    }
+}
+
+module.exports = {uploadOnCloudinary, deletOnCloudinary}

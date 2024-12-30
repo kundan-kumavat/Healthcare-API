@@ -1,5 +1,5 @@
 const User = require('../models/user.models.js');
-const { uploadOnCloudinary } = require('../utils/cloudinary');
+const { uploadOnCloudinary, deletOnCloudinary } = require('../utils/cloudinary');
 const jwt = require('jsonwebtoken');
 const PersonalDetail = require('../models/personalInfo.models.js')
 
@@ -289,6 +289,16 @@ const updateUserAvatar = async (req, res) => {
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+    const perviousAvatar = req.user?.avatar;
+
+    const deletePreviousAvatar = await deletOnCloudinary(perviousAvatar);
+
+    if(!deletePreviousAvatar){
+        return res.status(500).json({
+            message: 'Pervious avatar is not deleted'
+        })
+    }
 
     if(!avatar.url){
         throw new ApiError(400, "Error on uploading on avatar")
