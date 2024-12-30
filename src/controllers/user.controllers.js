@@ -305,11 +305,15 @@ const updateUserAvatar = async (req, res) => {
         user: req.user?.id,
     });
 
-    const perviousImagePath = user?.avatar.replace("http://res.cloudinary.com/dqdtyplfd/image/upload/v1735534235/", "");
-    const oldImage = perviousImagePath?.replace(".jpg", "");
-    console.log(oldImage)
+    const previousImageUrl = user?.avatar;
+    const previousPublicId = previousImageUrl
+        ?.split("/")
+        .slice(-1)[0] 
+        .split(".")[0];
 
-    const deletePreviousAvatar = await deletOnCloudinary(avatarLocalPath, oldImage);
+    // console.log("Old Image Public ID:", previousPublicId);
+
+    const deletePreviousAvatar = await deletOnCloudinary(previousPublicId);
 
     if(!deletePreviousAvatar){
         return res.status(500).json({
@@ -317,13 +321,17 @@ const updateUserAvatar = async (req, res) => {
         })
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath)
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
 
     if(!avatar.url){
         throw new ApiError(400, "Error on uploading on avatar")
     }
 
     user.avatar = avatar?.url;
+
+    await user.save({
+        validateBeforeSave: false
+    });
 
     return res.status(200).json( 
         { message: "User profile updated successfully" }

@@ -30,7 +30,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-const deletOnCloudinary = async (localFilePath, oldImage) => {
+const deletOnCloudinary = async (oldImage) => {
     try {
 
         cloudinary.config(
@@ -41,7 +41,7 @@ const deletOnCloudinary = async (localFilePath, oldImage) => {
             }
         );
 
-        if (!localFilePath) return null;
+        if (!oldImage) return null;
 
         await cloudinary.api
         .delete_resources(
