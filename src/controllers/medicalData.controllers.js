@@ -247,8 +247,12 @@ const getCurrentMedicationData = async(req, res) => {
 const addCurrentMedicationData = async(req, res) => {
     const { name, medicines, medicine_duration, known_allergies } = req.body;
 
-    if([ name, medicines, medicine_duration ].some((feild) => feild?.trim() === "")){
-        return res.status(400).json({message: "Incomplete Medication data"});
+    if ([name, medicines, medicine_duration].some((field) => 
+        typeof field === 'string' ? field.trim() === '' : field == null
+    )) {
+        return res.status(400).json({
+            message: "Required fields are missing or invalid: name, frequency, durationInMonths",
+        });
     }
 
     try {
