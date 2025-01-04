@@ -133,8 +133,12 @@ const getAddicationData = async(req, res) => {
 const addAddicationData = async(req, res) => {
     const { name, frequency, durationInMonths } = req.body;
 
-    if([ name, frequency, durationInMonths ].some((feild) => feild?.trim() === "")){
-        return res.status(400).json({message: "Incomplete Addication data"});
+    if ([name, frequency, durationInMonths].some((field) => 
+        typeof field === 'string' ? field.trim() === '' : field == null
+    )) {
+        return res.status(400).json({
+            message: "Required fields are missing or invalid: name, frequency, durationInMonths",
+        });
     }
 
     try {
@@ -187,7 +191,7 @@ const updateAddicationData = async(req, res) => {
     
 
     try {
-        const Addication = await Addication.findByIdAndUpdate(
+        const data = await Addication.findByIdAndUpdate(
             dataId,
             {
                 $set: updateData
@@ -196,10 +200,16 @@ const updateAddicationData = async(req, res) => {
                 new: true
             }
         );
+
+        if(!data){
+            return res.status(500).json({
+                message: "Mongoose error while updating addication data"
+            })
+        }
     
         return res.status(200).json({
             message: "Addication Data updated successfully",
-            data: Addication
+            data: data
         });
     } catch (error) {
         console.log(error);
