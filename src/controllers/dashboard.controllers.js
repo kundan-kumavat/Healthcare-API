@@ -19,7 +19,7 @@ const getUserStats = async(req, res) => {
             },
             {
                 $lookup: {
-                    from: "personal-datas",
+                    from: "personal_datas",
                     localField: "_id",
                     foreignField: "user",
                     as: "personalInfo",
@@ -28,21 +28,22 @@ const getUserStats = async(req, res) => {
                             $project: {
                                 dob: 1,
                                 height: 1,
-                                weight: 1
+                                weight: 1,
+                                gender: 1
                             }
                         },
                         {
                             $addFields: {
                                 age: {
                                     $divide: [
-                                        { $subtract: [new Date(), "$dob"] }, 
-                                        1000 * 60 * 60 * 24 * 365 
+                                        { $subtract: [new Date(), { $toDate: "2000-01-01T00:00:00Z" }] },
+                                        1000 * 60 * 60 * 24 * 365
                                     ]
                                 },
                                 bmi: {
                                     $divide: [
-                                        "$weight",
-                                        { $pow: [{ $divide: ["$height", 100] }, 2] }
+                                        { $toDouble: "$weight" }, 
+                                        { $pow: [{ $divide: [{ $toDouble: "$height" }, 100] }, 2] } 
                                     ]
                                 }
                             }
@@ -60,7 +61,7 @@ const getUserStats = async(req, res) => {
                     ]
                 }
             }
-        ]);
+        ]);        
 
         if(!stats?.length){
             return res.stats(404).json({
