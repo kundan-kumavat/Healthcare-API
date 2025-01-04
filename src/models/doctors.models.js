@@ -15,7 +15,7 @@ const doctorSchema = new mongoose.Schema(
             required: true
         },
         fees: {
-            type: String
+            type: Number
         },
         experienceInYears: {
             type: Number,

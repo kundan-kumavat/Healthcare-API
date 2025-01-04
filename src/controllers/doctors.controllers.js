@@ -3,8 +3,12 @@ const Doctor = require('../models/doctors.models.js');
 const addDoctor = async (req, res) => {
     const { name, specialization, location, fees, experienceInYears, worksInHospitals } = req.body;
 
-    if([name, specialization, location, experienceInYears, worksInHospitals].some((feild) => feild?.trim() === "")){
-        return res.status(400).json({message: "Incomplete Doctor data"});
+    if ([name, specialization, location, experienceInYears, worksInHospitals].some((field) => 
+        typeof field === 'string' ? field.trim() === '' : field == null
+    )) {
+        return res.status(400).json({
+            message: "Required fields are missing or invalid: name, frequency, durationInMonths",
+        });
     }
 
     try {
@@ -56,10 +60,13 @@ const getDoctorsBasedOnLocation = async(req, res) => {
 
 const getDoctorsBasedOnSpecialization = async(req, res) => {
     const { specialization } = req.body || req.params;
+    console.log(specialization);
     try {
         const doctors = await Doctor.find({
             specialization: specialization,
         });
+
+        console.log(doctors);
 
         if(!doctors){
             return res.status(404).json({
