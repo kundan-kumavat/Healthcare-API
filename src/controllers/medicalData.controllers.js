@@ -29,7 +29,9 @@ const addPastSurgicalData = async(req, res) => {
     const { name, date, complications, anstesia_history } = req.body;
 
     if(!name && !date){
-        return res.status(400).json('Surgery details are required');
+        return res.status(400).json({
+            message: 'Surgery details are required'
+        });
     }
 
     try {
