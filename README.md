@@ -66,6 +66,7 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
 - **Required Fields**:
   - `header ` (string): Passes the authorization token in the header of the request.
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzdiNWY4_mQh5N3VE_Ctih2JOT6dQunhc | accessToken |
@@ -87,6 +88,7 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
   - `oldPassword` (string): Old password of the user
   - `newPassword` (string): New password that to be set
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzdiNWY4_mQh5N3VE_Ctih2JOT6dQunhc | accessToken |
@@ -144,11 +146,13 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
   - `weight` (string): weight of the user in KG.
 
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
 
 - **Form Data**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | firstName  | John |  |
@@ -178,6 +182,7 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
 - **Endpoint**: `PUT users/user-details`
 - **Description**: Use to update the details of the user.
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
@@ -206,11 +211,13 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
   - `avatar` (string): User new profile or avatar image.
 
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
 
 - **Form Data**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | avatar  | new_user_profile.jpg | (jpeg, jpg, png) |
@@ -228,6 +235,7 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
 - **Description**: Get the user details stored on db.
 
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
@@ -267,9 +275,10 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
   - `username` (string): requires username in params to get user staticstics.
 
 - **Header section**:
-| key | value | description |
-| --- | ----- | ----------- |
-| Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
+
+| key | value |
+| --- | ----- |
+| Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM |
 
 
 - **Sample Response**:
@@ -305,6 +314,7 @@ The Healthcare API provides a comprehensive suite of endpoints for managing user
 - **Description**: Delete user from the system.
 
 - **Header section**:
+
 | key | value | description |
 | --- | ----- | ----------- |
 | Authorization | Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9._8Oaq83KIKhierDM | accessToken |
