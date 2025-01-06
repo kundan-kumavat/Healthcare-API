@@ -36,7 +36,7 @@ const getUserStats = async(req, res) => {
                             $addFields: {
                                 age: {
                                     $divide: [
-                                        { $subtract: [new Date(), { $toDate: "2000-01-01T00:00:00Z" }] },
+                                        { $subtract: [new Date(), { $toDate: "$dob" }] },
                                         1000 * 60 * 60 * 24 * 365
                                     ]
                                 },
@@ -64,7 +64,7 @@ const getUserStats = async(req, res) => {
         ]);        
 
         if(!stats?.length){
-            return res.stats(404).json({
+            return res.status(404).json({
                 message: "User does not exits"
             })
         };

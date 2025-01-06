@@ -53,7 +53,9 @@ const registerUser = async (req, res) => {
             return res.status(500).json({ message: "Something went wrong while creating the user" })
         }
 
-        return res.status(201).json(createdUser);
+        return res.status(201).json({
+            message: "User registered successfully",
+        });
     } catch (error) {
         console.log('Something went wrong while creating the user', error);
     }
@@ -227,9 +229,12 @@ const userDetails = async(req, res) => {
 
         const savedData = await PersonalDetail.findById(data?._id);
 
-        return res.status(201).json({message: "User details saved successfully",
-            data: savedData
-        })
+        return res.status(201).json(
+        {
+            message: "User details saved successfully",
+            // data: savedData
+        },
+    )
 
     } catch (error) {
         console.log('something went wrong while creating the user: ', error);

@@ -28,6 +28,7 @@ router.route('/delete-user').delete(verifyJWT, deleteUser);
 router.route('/update-avatar').put(verifyJWT, upload.single('avatar'), updateUserAvatar);
 router.route('/user-details').put(verifyJWT, updateUserDetails);
 router.route('/current-user').get(verifyJWT, getCurrentUserDetail);
+router.route('/').delete(verifyJWT, deleteUser);
 router.route('/stats/:username').get(verifyJWT, getUserStats);
 
 module.exports = router;

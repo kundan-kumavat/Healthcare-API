@@ -11,7 +11,8 @@ const personalInfoSchema = new mongoose.Schema(
             required: true
         },
         dob: {
-            type: Date,
+            type: String,
+            required: true
         },
         phone_no: {
             type: String,
@@ -27,10 +28,10 @@ const personalInfoSchema = new mongoose.Schema(
             default: 0
         },
         height: {
-            type: String,
+            type: Number,
         },
         weight: {
-            type: String,
+            type: Number,
         },
         address: {
             type: String,
@@ -44,6 +45,7 @@ const personalInfoSchema = new mongoose.Schema(
         },
         state: {
             type: String,
+            required: true
         },
         pincode: {
             type: String,
